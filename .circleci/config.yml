@@ -1,0 +1,46 @@
+version: 2.1 #updated to CircleCI 2.1
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.7.0
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: install dependencies
+          command: |
+            git clone https://github.com/mapbox/tippecanoe.git
+            cd tippecanoe
+            make -j
+            make install
+
+      - run:
+          name: create tiles
+          commmand: rake 
+      - add_ssh_keys:
+          fingerprints:
+            - "c7:f9:19:fc:bc:1f:a2:43:9d:15:2b:3b:3d:ff:41:f2"
+      - deploy:
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+                git config --global user.email hal@code4japan.org
+                git config --global user.name circleci
+                git clone -b gh-pages git@github.com:halsk/pharmacies-tiles.git
+                cd mapprint; rake; git add .; git commit -m "From `git log --oneline origin/master -n 1`"; git push
+            fi
+ workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only: master
