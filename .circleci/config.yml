@@ -1,4 +1,7 @@
-version: 2.1 #updated to CircleCI 2.1
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+version: 2
 jobs:
   build:
     docker:
