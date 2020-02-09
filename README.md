@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/halsk/pharmacies-tiles.svg?style=svg)](https://circleci.com/gh/halsk/pharmacies-tiles)
 
-# Vector Tile version of real time inventry data in Taiwan.
+# Vector Tile version of real time mask inventry data in Taiwan.
 Vector tile version of mask inventries of the pharmacies.
 
 # How to use
