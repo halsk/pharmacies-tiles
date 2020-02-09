@@ -25,10 +25,6 @@ jobs:
             make -j
             sudo make install
 
-      - run:
-          name: create tiles
-          command: rake
-
       - add_ssh_keys:
           fingerprints:
             - "f0:18:cd:40:47:e1:f0:85:d0:f2:6b:39:66:d7:d1:40"
