@@ -1,0 +1,6 @@
+tree 3c29bc803414e49b2a5a4da193b14e1feeab0142
+parent 6188e8e8a9778caf55b730a729c3adf9868de995
+author circleci <hal@code4japan.org> 1581232234 +0000
+committer circleci <hal@code4japan.org> 1581232234 +0000
+
+From b6d0ff0 fix rake timing
