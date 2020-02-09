@@ -45,3 +45,10 @@ workflows:
           filters:
             branches:
               only: master
+  regular_update:
+    triggers:
+      - schedule:
+          cron: "*/5 * * * *" #every 5 minutes
+          filters:
+            branches:
+              only: master
