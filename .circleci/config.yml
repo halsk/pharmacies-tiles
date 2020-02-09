@@ -31,7 +31,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "71:2b:93:17:80:aa:0b:42:18:04:ae:47:4e:a2:9f:72"
+            - "c0:10:fc:00:6e:c2:f8:37:3b:fd:75:6f:49:69:24:e0"
       - deploy:
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
