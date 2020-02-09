@@ -27,7 +27,8 @@ jobs:
 
       - run:
           name: create tiles
-          commmand: rake 
+          command: rake
+           
       - add_ssh_keys:
           fingerprints:
             - "c7:f9:19:fc:bc:1f:a2:43:9d:15:2b:3b:3d:ff:41:f2"
