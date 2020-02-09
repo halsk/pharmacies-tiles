@@ -15,7 +15,6 @@ If you are using Mapbox-GL JS, here is the sample code of getting the data.
 
 ```
 map.on('load', function() {
-  // Add Pharmacy sequence layer.
   map.addLayer({
         "id": "pharmacies",
         "type": "circle",
@@ -26,9 +25,32 @@ map.on('load', function() {
         },
         "source-layer": "pharmacies",
         "paint": {
-            "circle-radius": 3,
-            "circle-color": "#000000",
-            "circle-stroke-width": 1
+            // make circles larger as the user zooms from z12 to z22
+            'circle-radius': 5,
+            "circle-stroke-width": 1,
+            // color circles by ethnicity, using a match expression
+            'circle-color': [
+                "case",
+                [
+                    ">",
+                    ["get", "mask_adult"],
+                    200
+                ],
+                "hsl(252, 91%, 42%)",
+                [
+                    ">",
+                    ["get", "mask_adult"],
+                    100
+                ],
+                "hsl(65, 97%, 57%)",
+                [
+                    "<",
+                    ["get", "mask_adult"],
+                    101
+                ],
+                "hsl(0, 98%, 53%)",
+                "#000000"
+            ]
         }
     })
 });
