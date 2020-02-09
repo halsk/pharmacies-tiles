@@ -48,10 +48,9 @@ workflows:
   cronjob:
     triggers:
       - schedule:
-          cron: "*/5 * * * *" #every 5 minutes
+          cron: "5 * * * *" #every 5 minutes
           filters:
             branches:
               only: master
     jobs:
       - deploy
-      
