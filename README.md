@@ -69,7 +69,7 @@ This vector tile is based on @kiang's GeoJson file.
 - GitHub: https://github.com/kiang/pharmacies
 
 The @kiang's data is created from [Taiwan government data](https://data.gov.tw/dataset/116285). The original data source is updated every 30 seconds.
-And this repository's files are updated every minutes by CircleCI.
+And this repository's files are updated every minutes by CircleCI. (But I'm not sure if [the data is actually refreshed](https://github.com/halsk/pharmacies-tiles/issues/7).)
 
 Please see details [here](https://g0v.hackmd.io/@kiang/mask-info) about this datasets.
 
