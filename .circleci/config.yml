@@ -39,6 +39,7 @@ jobs:
                 git clone -b gh-pages git@github.com:halsk/pharmacies-tiles.git
                 cd mapprint; rake; git add .; git commit -m "From `git log --oneline origin/master -n 1`"; git push
             fi
+
  workflows:
   version: 2
   build-deploy:
