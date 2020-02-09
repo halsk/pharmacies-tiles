@@ -34,7 +34,6 @@ jobs:
                 git config --global user.email hal@code4japan.org
                 git config --global user.name circleci
                 git checkout gh-pages
-                git merge master
                 rake; git add .; git commit -m "From `git log --oneline origin/master -n 1`"; git push
             fi
 
