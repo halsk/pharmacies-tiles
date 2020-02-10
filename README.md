@@ -73,6 +73,12 @@ And this repository's files are updated every minutes by CircleCI. (But I'm not 
 
 Please see details [here](https://g0v.hackmd.io/@kiang/mask-info) about this datasets.
 
+
 # License
 
 [MIT License](LICENSE.txt)
+
+
+# Additional resources
+
+[tile-join を使って重たい geojson を XYZ tile に変換し GitHub でホストする方法|Qiita](https://qiita.com/hal_sk/items/eb59cb474b0e5d37dde0) (Japanese)
