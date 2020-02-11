@@ -35,8 +35,11 @@ jobs:
                 git config --global user.email hal@code4japan.org
                 git config --global user.name circleci
                 git checkout gh-pages
-                git filter-branch -f --index-filter 'git rm -r --cached --ignore-unmatch zxy' HEAD
-                git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch pharmacies.mbtiles' HEAD
+                git filter-branch -f --index-filter 'git rm -r --ignore-unmatch zxy' --prune-empty -- --all
+                git filter-branch -f --index-filter 'git rm --ignore-unmatch pharmacies.mbtiles' --prune-empty -- --all
+                rm -rf .git/refs/original/
+                git reflog expire --expire=now --all
+                git gc --aggressive --prune=now
                 git checkout master index.html
                 rake; git add .; git commit -m "From `git log --oneline origin/master -n 1`"; git push -f
             fi
