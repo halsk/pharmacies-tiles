@@ -38,7 +38,8 @@
           "source": "OSM",
           "minzoom": 0,
           "maxzoom": 18
-        }]
+        }],
+        "glyphs": "https://smellman.github.io/fonts/{fontstack}/{range}.pbf"
       },
       center: [121.53185, 25.04776],
       zoom: 11
@@ -80,6 +81,24 @@
           // color circles by ethnicity, using a match expression
           'circle-color': color_property
         }
+      })
+      // Add Symbol
+      map.addLayer({
+        "id": "pharmacies-symbol",
+        "type": "symbol",
+        "source": "pharmacies",
+        "source-layer": "pharmacies",
+        "layout": {
+          "text-field": "{name}",
+          "text-font": ["Noto Sans Bold"],
+          "text-offset": [0, -1.5]
+        },
+        "paint": {
+          "text-color": color_property,
+          "text-halo-color": "rgba(0, 0, 0, 1)",
+          "text-halo-width": 0.2
+        },
+        "minzoom": 14
       })
     });
     // Navigation Control
