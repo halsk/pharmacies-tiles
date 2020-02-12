@@ -5,8 +5,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Mask Map</title>
-  <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.7.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,12 +30,12 @@
               "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
               "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
             ],
-            "tileSize": 256
+            "tileSize": 256,
+            "attribution": "© OpenStreetMap contributors"
           },
           "pharmacies": {
             "type": "vector",
-            "tiles": ["https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"],
-            "maxzoom": 14
+            "url": "tilejson.json"
           }
         },
         "layers": [{
@@ -42,7 +48,9 @@
         "glyphs": "https://smellman.github.io/fonts/{fontstack}/{range}.pbf"
       },
       center: [121.53185, 25.04776],
-      zoom: 11
+      zoom: 11,
+      hash: true,
+      antialias: false
     });
     map.on('load', function () {
       // color
@@ -80,7 +88,8 @@
           "circle-stroke-width": 1,
           // color circles by ethnicity, using a match expression
           'circle-color': color_property
-        }
+        },
+        "maxzoom": 18
       })
       // Add Symbol
       map.addLayer({

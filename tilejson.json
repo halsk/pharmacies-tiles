@@ -1,0 +1,52 @@
+{
+  "id": "pharmacies",
+  "name": "pharmacies",
+  "description": "pharmacies",
+  "version": "2",
+  "minzoom": 0,
+  "maxzoom": 14,
+  "center": [
+    121.453857,
+    24.996015,
+    14
+  ],
+  "bounds": [
+    118.234863,
+    21.983801,
+    121.926270,
+    26.372185
+  ],
+  "format": "pbf",
+  "attribution": "@kiang",
+  "pixel_scale": 256,
+  "tilejson": "2.0.0",
+  "tiles": [
+    "https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"
+  ],
+  "vector_layers": [
+    {
+      "id": "pharmacies",
+      "description": "",
+      "minzoom": 0,
+      "maxzoom": 14,
+      "fields": {
+        "address": "String",
+        "available": "String",
+        "county": "String",
+        "cunli": "String",
+        "custom_note": "String",
+        "id": "String",
+        "mask_adult": "Number",
+        "mask_child": "Number",
+        "name": "String",
+        "note": "Mixed",
+        "phone": "String",
+        "service_note": "Mixed",
+        "service_periods": "String",
+        "town": "String",
+        "updated": "String",
+        "website": "String"
+      }
+    }
+  ]
+}
