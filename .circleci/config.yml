@@ -6,7 +6,8 @@ jobs:
   deploy:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.7.0
+      # - image: circleci/ruby:2.7.0
+      - image: smellman/phaarmacies-tiles:latest
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -17,14 +18,14 @@ jobs:
 
     steps:
       - checkout
-      - run:
-          name: install dependencies
-          command: |
-            git clone https://github.com/mapbox/tippecanoe.git
-            cd tippecanoe
-            make -j
-            sudo make install
-            rm -rf tippecanoe
+      # - run:
+      #     name: install dependencies
+      #     command: |
+      #       git clone https://github.com/mapbox/tippecanoe.git
+      #       cd tippecanoe
+      #       make -j
+      #       sudo make install
+      #       rm -rf tippecanoe
 
       - add_ssh_keys:
           fingerprints:
