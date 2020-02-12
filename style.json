@@ -73,25 +73,7 @@
       "source": "pharmacies",
       "source-layer": "pharmacies",
       "layout": {
-        "text-field": [
-          "format",
-          [
-            "get",
-            "name"
-          ],
-          {
-            "font-scale": 1.2
-          },
-          "\n",
-          {},
-          [
-            "get",
-            "name"
-          ],
-          {
-            "font-scale": 0.8
-          }
-        ],
+        "text-field": "{name}",
         "text-font": [
           "Noto Sans Bold"
         ],
