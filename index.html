@@ -100,6 +100,31 @@
         },
         "minzoom": 14
       })
+      // generate popup text
+      const getPopupText = (properties) => {
+        return `<p>
+          name: ${properties['name']}<br>
+          phone: ${properties['phone']}<br>
+          available: ${properties['available']}
+          </p>`
+      }
+      // click pharmacies circle
+      map.on('click', 'pharmacies', (e) => {
+        const feature = e.features[0];
+        const description = getPopupText(feature.properties)
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(description)
+          .addTo(map)
+      })
+      // mouseenter pharmacies circle
+      map.on('mouseenter', 'pharmacies', function () {
+        map.getCanvas().style.cursor = 'pointer';
+      })
+      // mouseleave pharmacies circle
+      map.on('mouseleave', 'pharmacies', function () {
+        map.getCanvas().style.cursor = '';
+      })
     });
     // Navigation Control
     map.addControl(
