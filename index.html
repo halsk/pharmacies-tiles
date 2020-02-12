@@ -1,94 +1,146 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Mask Map</title>
-    <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
-  </head>
-  <body>
-    <h1>Mask Map</h1>
-    <div id='map' style='width: 100%; height: 600px;'></div>
-<script>
-var map = new mapboxgl.Map({
-    container: "map",
-    style: {
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mask Map</title>
+  <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+
+<body>
+  <h1>Mask Map</h1>
+  <div id='map' style='width: 100%; height: 600px;'></div>
+  <script>
+    var map = new mapboxgl.Map({
+      container: "map",
+      style: {
         "version": 8,
         "sources": {
-            "OSM": {
-                "type": "raster",
-                "tiles": [
-                    "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                ],
-                "tileSize": 256
-            }
-        },
-        "layers": [{
-            "id": "OSM",
+          "OSM": {
             "type": "raster",
-            "source": "OSM",
-            "minzoom": 0,
-            "maxzoom": 18
-        }]
-    },
-    center: [121.53185, 25.04776],
-    zoom: 11
-});
-map.on('load', function() {
-  // Add Pharmacy sequence layer.
-  map.addLayer({
-        "id": "pharmacies",
-        "type": "circle",
-        "source": {
+            "tiles": [
+              "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            ],
+            "tileSize": 256
+          },
+          "pharmacies": {
             "type": "vector",
             "tiles": ["https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"],
             "maxzoom": 14
+          }
         },
+        "layers": [{
+          "id": "OSM",
+          "type": "raster",
+          "source": "OSM",
+          "minzoom": 0,
+          "maxzoom": 18
+        }],
+        "glyphs": "https://smellman.github.io/fonts/{fontstack}/{range}.pbf"
+      },
+      center: [121.53185, 25.04776],
+      zoom: 11
+    });
+    map.on('load', function () {
+      // color
+      const color_property = [
+        "case",
+        [
+          ">",
+          ["get", "mask_adult"],
+          200
+        ],
+        "hsl(252, 91%, 42%)",
+        [
+          ">",
+          ["get", "mask_adult"],
+          100
+        ],
+        "hsl(65, 97%, 57%)",
+        [
+          "<",
+          ["get", "mask_adult"],
+          101
+        ],
+        "hsl(0, 98%, 53%)",
+        "#000000"
+      ]
+      // Add Pharmacy sequence layer.
+      map.addLayer({
+        "id": "pharmacies",
+        "type": "circle",
+        "source": "pharmacies",
         "source-layer": "pharmacies",
         "paint": {
-            // make circles larger as the user zooms from z12 to z22
-            'circle-radius': 5,
-            "circle-stroke-width": 1,
-            // color circles by ethnicity, using a match expression
-            'circle-color': [
-                "case",
-                [
-                    ">",
-                    ["get", "mask_adult"],
-                    200
-                ],
-                "hsl(252, 91%, 42%)",
-                [
-                    ">",
-                    ["get", "mask_adult"],
-                    100
-                ],
-                "hsl(65, 97%, 57%)",
-                [
-                    "<",
-                    ["get", "mask_adult"],
-                    101
-                ],
-                "hsl(0, 98%, 53%)",
-                "#000000"
-            ]
+          // make circles larger as the user zooms from z12 to z22
+          'circle-radius': 5,
+          "circle-stroke-width": 1,
+          // color circles by ethnicity, using a match expression
+          'circle-color': color_property
         }
-    })
-});
-// Navigation Control
-map.addControl(
-  new mapboxgl.NavigationControl(), 'top-left'
-);
-// Geolocation Control
-map.addControl(new mapboxgl.GeolocateControl({
-  positionOptions: {
-    enableHighAccuracy: true
-  },
-  trackUserLocation: true
-}));
- </script>
- <p>This is an example html to show how to use vector tiles of a real-time mask inevntry of pharmacies in Taiwan. You can see the source code from my <a href="https://github.com/halsk/pharmacies-tiles" target="_blank">GitHub repository</a></p>.
-  </body>
+      })
+      // Add Symbol
+      map.addLayer({
+        "id": "pharmacies-symbol",
+        "type": "symbol",
+        "source": "pharmacies",
+        "source-layer": "pharmacies",
+        "layout": {
+          "text-field": "{name}",
+          "text-font": ["Noto Sans Bold"],
+          "text-offset": [0, -1.5]
+        },
+        "paint": {
+          "text-color": color_property,
+          "text-halo-color": "rgba(0, 0, 0, 1)",
+          "text-halo-width": 0.2
+        },
+        "minzoom": 14
+      })
+      // generate popup text
+      const getPopupText = (properties) => {
+        return `<p>
+          name: ${properties['name']}<br>
+          phone: ${properties['phone']}<br>
+          available: ${properties['available']}
+          </p>`
+      }
+      // click pharmacies circle
+      map.on('click', 'pharmacies', (e) => {
+        const feature = e.features[0];
+        const description = getPopupText(feature.properties)
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(description)
+          .addTo(map)
+      })
+      // mouseenter pharmacies circle
+      map.on('mouseenter', 'pharmacies', function () {
+        map.getCanvas().style.cursor = 'pointer';
+      })
+      // mouseleave pharmacies circle
+      map.on('mouseleave', 'pharmacies', function () {
+        map.getCanvas().style.cursor = '';
+      })
+    });
+    // Navigation Control
+    map.addControl(
+      new mapboxgl.NavigationControl(), 'top-left'
+    );
+    // Geolocation Control
+    map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }));
+  </script>
+  <p>This is an example html to show how to use vector tiles of a real-time mask inevntry of pharmacies in Taiwan. You
+    can see the source code from my <a href="https://github.com/halsk/pharmacies-tiles" target="_blank">GitHub
+      repository</a></p>.
+</body>
+
 </html>
