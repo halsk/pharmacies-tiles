@@ -8,16 +8,27 @@
   <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
   <style>
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
     body {
       margin: 0;
       padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .mapboxgl-popup-content {
+      width: 600px;
     }
   </style>
 </head>
 
 <body>
   <h1>Mask Map</h1>
-  <div id='map' style='width: 100%; height: 600px;'></div>
+  <div id='map' style='width: 100%; height: 100%;'></div>
   <script>
     var map = new mapboxgl.Map({
       container: "map",
@@ -30,11 +41,38 @@
     map.on('load', function () {
       // generate popup text
       const getPopupText = (properties) => {
-        return `<p>
-          name: ${properties['name']}<br>
-          phone: ${properties['phone']}<br>
-          available: ${properties['available']}
-          </p>`
+        return `<table>
+          <thead><tr><th colspan="2"><h2>${properties['name']}</h2></th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="width: 120px">名稱</td><td style="width: 480px">${properties['name']}</td>
+            </tr>
+            <tr>
+              <td>成人口罩庫存</td><td>${properties['mask_adult']}</td>
+            </tr>
+            <tr>
+              <td>兒童口罩庫存</td><td>${properties['mask_child']}</td>
+            </tr>
+            <tr>
+              <td>電話</td><td>${properties['phone']}</td>
+            </tr>
+            <tr>
+              <td>住址</td><td>${properties['address']}</td>
+            </tr>
+            <tr>
+              <td>營業日</td><td>${properties['available']}</td>
+            </tr>
+            <tr>
+              <td>備註</td><td>${properties['note']}</td>
+            </tr>
+            <tr>
+              <td>看診備註</td><td>${properties['service_note']}</td>
+            </tr>
+            <tr>
+              <td>更新時間</td><td>${properties['updated']}</td>
+            </tr>
+          </tbody>
+        </table>`
       }
       // click pharmacies circle
       map.on('click', 'pharmacies', (e) => {
