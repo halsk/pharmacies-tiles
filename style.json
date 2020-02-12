@@ -36,33 +36,75 @@
         "circle-color": [
           "case",
           [
-            ">",
+            "==",
             [
               "get",
-              "mask_adult"
+              "updated"
             ],
-            200
+            ""
           ],
-          "hsl(252, 91%, 42%)",
+          "#ccc",
           [
-            ">",
+            "all",
             [
-              "get",
-              "mask_adult"
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              100
             ],
-            100
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              25
+            ]
           ],
-          "hsl(65, 97%, 57%)",
+          "#48c774",
           [
-            "<",
+            "all",
             [
-              "get",
-              "mask_adult"
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              40
             ],
-            101
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              10
+            ]
           ],
-          "hsl(0, 98%, 53%)",
-          "#000000"
+          "#ffdd57",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              20
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              5
+            ]
+          ],
+          "#fc82b1",
+          "#f00"
         ]
       },
       "maxzoom": 18
@@ -86,33 +128,75 @@
         "text-color": [
           "case",
           [
-            ">",
+            "==",
             [
               "get",
-              "mask_adult"
+              "updated"
             ],
-            200
+            ""
           ],
-          "hsl(252, 91%, 42%)",
+          "#ccc",
           [
-            ">",
+            "all",
             [
-              "get",
-              "mask_adult"
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              100
             ],
-            100
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              25
+            ]
           ],
-          "hsl(65, 97%, 57%)",
+          "#48c774",
           [
-            "<",
+            "all",
             [
-              "get",
-              "mask_adult"
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              40
             ],
-            101
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              10
+            ]
           ],
-          "hsl(0, 98%, 53%)",
-          "#000000"
+          "#ffdd57",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              20
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              5
+            ]
+          ],
+          "#fc82b1",
+          "#f00"
         ],
         "text-halo-color": "rgba(0, 0, 0, 1)",
         "text-halo-width": 0.2
