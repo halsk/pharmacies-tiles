@@ -23,6 +23,11 @@ var map = new mapboxgl.Map({
                     "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 ],
                 "tileSize": 256
+            },
+            "pharmacies": {
+              "type": "vector",
+              "tiles": ["https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"],
+              "maxzoom": 14
             }
         },
         "layers": [{
@@ -41,11 +46,7 @@ map.on('load', function() {
   map.addLayer({
         "id": "pharmacies",
         "type": "circle",
-        "source": {
-            "type": "vector",
-            "tiles": ["https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"],
-            "maxzoom": 14
-        },
+        "source": "pharmacies",
         "source-layer": "pharmacies",
         "paint": {
             // make circles larger as the user zooms from z12 to z22
