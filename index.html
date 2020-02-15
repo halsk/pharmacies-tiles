@@ -3,110 +3,76 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
   <title>Mask Map</title>
-  <script src='https://static-assets.mapbox.com/gl-pricing/dist/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .mapboxgl-popup-content {
+      width: 600px;
+    }
+  </style>
 </head>
 
 <body>
   <h1>Mask Map</h1>
-  <div id='map' style='width: 100%; height: 600px;'></div>
+  <div id='map' style='width: 100%; height: 100%;'></div>
   <script>
     var map = new mapboxgl.Map({
       container: "map",
-      style: {
-        "version": 8,
-        "sources": {
-          "OSM": {
-            "type": "raster",
-            "tiles": [
-              "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
-              "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            ],
-            "tileSize": 256
-          },
-          "pharmacies": {
-            "type": "vector",
-            "tiles": ["https://halsk.github.io/pharmacies-tiles/zxy/{z}/{x}/{y}.pbf"],
-            "maxzoom": 14
-          }
-        },
-        "layers": [{
-          "id": "OSM",
-          "type": "raster",
-          "source": "OSM",
-          "minzoom": 0,
-          "maxzoom": 18
-        }],
-        "glyphs": "https://smellman.github.io/fonts/{fontstack}/{range}.pbf"
-      },
+      style: './style.json',
       center: [121.53185, 25.04776],
-      zoom: 11
+      zoom: 11,
+      hash: true,
+      antialias: false
     });
     map.on('load', function () {
-      // color
-      const color_property = [
-        "case",
-        [
-          ">",
-          ["get", "mask_adult"],
-          200
-        ],
-        "hsl(252, 91%, 42%)",
-        [
-          ">",
-          ["get", "mask_adult"],
-          100
-        ],
-        "hsl(65, 97%, 57%)",
-        [
-          "<",
-          ["get", "mask_adult"],
-          101
-        ],
-        "hsl(0, 98%, 53%)",
-        "#000000"
-      ]
-      // Add Pharmacy sequence layer.
-      map.addLayer({
-        "id": "pharmacies",
-        "type": "circle",
-        "source": "pharmacies",
-        "source-layer": "pharmacies",
-        "paint": {
-          // make circles larger as the user zooms from z12 to z22
-          'circle-radius': 5,
-          "circle-stroke-width": 1,
-          // color circles by ethnicity, using a match expression
-          'circle-color': color_property
-        }
-      })
-      // Add Symbol
-      map.addLayer({
-        "id": "pharmacies-symbol",
-        "type": "symbol",
-        "source": "pharmacies",
-        "source-layer": "pharmacies",
-        "layout": {
-          "text-field": "{name}",
-          "text-font": ["Noto Sans Bold"],
-          "text-offset": [0, -1.5]
-        },
-        "paint": {
-          "text-color": color_property,
-          "text-halo-color": "rgba(0, 0, 0, 1)",
-          "text-halo-width": 0.2
-        },
-        "minzoom": 14
-      })
       // generate popup text
       const getPopupText = (properties) => {
-        return `<p>
-          name: ${properties['name']}<br>
-          phone: ${properties['phone']}<br>
-          available: ${properties['available']}
-          </p>`
+        return `<table>
+          <thead><tr><th colspan="2"><h2>${properties['name']}</h2></th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="width: 120px">名稱</td><td style="width: 480px">${properties['name']}</td>
+            </tr>
+            <tr>
+              <td>成人口罩庫存</td><td>${properties['mask_adult']}</td>
+            </tr>
+            <tr>
+              <td>兒童口罩庫存</td><td>${properties['mask_child']}</td>
+            </tr>
+            <tr>
+              <td>電話</td><td>${properties['phone']}</td>
+            </tr>
+            <tr>
+              <td>住址</td><td>${properties['address']}</td>
+            </tr>
+            <tr>
+              <td>營業日</td><td>${properties['available']}</td>
+            </tr>
+            <tr>
+              <td>備註</td><td>${properties['note']}</td>
+            </tr>
+            <tr>
+              <td>看診備註</td><td>${properties['service_note']}</td>
+            </tr>
+            <tr>
+              <td>更新時間</td><td>${properties['updated']}</td>
+            </tr>
+          </tbody>
+        </table>`
       }
       // click pharmacies circle
       map.on('click', 'pharmacies', (e) => {

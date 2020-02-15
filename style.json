@@ -1,0 +1,208 @@
+{
+  "version": 8,
+  "name": "Basic",
+  "sources": {
+    "OSM": {
+      "type": "raster",
+      "tiles": [
+        "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://b.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ],
+      "tileSize": 256,
+      "attribution": "© OpenStreetMap contributors"
+    },
+    "pharmacies": {
+      "type": "vector",
+      "url": "https://smellman.github.io/pharmacies-tiles/tilejson.json"
+    }
+  },
+  "glyphs": "https://smellman.github.io/fonts/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "OSM",
+      "type": "raster",
+      "source": "OSM",
+      "minzoom": 0,
+      "maxzoom": 18
+    },
+    {
+      "id": "pharmacies",
+      "type": "circle",
+      "source": "pharmacies",
+      "source-layer": "pharmacies",
+      "paint": {
+        "circle-radius": 5,
+        "circle-stroke-width": 1,
+        "circle-color": [
+          "case",
+          [
+            "==",
+            [
+              "get",
+              "updated"
+            ],
+            ""
+          ],
+          "#ccc",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              100
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              25
+            ]
+          ],
+          "#48c774",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              40
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              10
+            ]
+          ],
+          "#ffdd57",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              20
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              5
+            ]
+          ],
+          "#fc82b1",
+          "#f00"
+        ]
+      },
+      "maxzoom": 18
+    },
+    {
+      "id": "pharmacies-symbol",
+      "type": "symbol",
+      "source": "pharmacies",
+      "source-layer": "pharmacies",
+      "layout": {
+        "text-field": "{name}",
+        "text-font": [
+          "Noto Sans Bold"
+        ],
+        "text-offset": [
+          0,
+          -1.5
+        ]
+      },
+      "paint": {
+        "text-color": [
+          "case",
+          [
+            "==",
+            [
+              "get",
+              "updated"
+            ],
+            ""
+          ],
+          "#ccc",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              100
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              25
+            ]
+          ],
+          "#48c774",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              40
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              10
+            ]
+          ],
+          "#ffdd57",
+          [
+            "all",
+            [
+              ">",
+              [
+                "get",
+                "mask_adult"
+              ],
+              20
+            ],
+            [
+              ">",
+              [
+                "get",
+                "mask_child"
+              ],
+              5
+            ]
+          ],
+          "#fc82b1",
+          "#f00"
+        ],
+        "text-halo-color": "rgba(0, 0, 0, 1)",
+        "text-halo-width": 0.2
+      },
+      "minzoom": 14
+    }
+  ],
+  "id": "pharmacies"
+}
